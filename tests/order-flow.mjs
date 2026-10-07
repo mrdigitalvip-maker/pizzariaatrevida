@@ -87,3 +87,23 @@ assert.equal((await request('/staff/preferences/orders',{method:'PUT',uid:'owner
 const recovered=await request('/customer/recover',{method:'POST',data:{email:customerInfo.email,password:'new-customer-password-123',recovery:registration.body.recoveryCode}});assert.equal(recovered.status,200);assert.equal((await request('/customer/session',{cookie:accountCookie})).body.account,null);assert.equal((await request('/customer/recover',{method:'POST',data:{email:customerInfo.email,password:'new-customer-password-123',recovery:registration.body.recoveryCode}})).status,403);
 const oldDriver=driverToken;await request('/staff/drivers/1/link',{method:'POST',uid:'owner'});assert.equal((await request('/driver',{driver:oldDriver})).status,403);
 console.log('PASS: optional customer account, password and recovery, 8.99/6.99 fees, 4 drivers, scoped live delivery, preferences persistence, customer roster, 5 completed purchases, 3% cashback credit, redeem reservation, duplicate prevention and cancellation refund.');
+// Store control and public courier identity are permission-bound.
+assert.equal((await request('/storefront')).body.accepting,true);
+assert.equal((await request('/staff/store',{method:'PUT',data:{accepting:false,eta:40,unavailable:[]}})).status,403);
+assert.equal((await request('/staff/store',{method:'PUT',uid:'owner',data:{accepting:false,eta:50,unavailable:[]}})).status,200);
+sql.exec('DELETE FROM rate_limits');
+const freshCookie=(await request('/session')).cookie;
+assert.equal((await request('/orders',{method:'POST',cookie:freshCookie,data:{...order,nonce:'paused-store-test-123'}})).status,409);
+assert.equal((await request('/staff/store',{method:'PUT',uid:'owner',data:{accepting:true,eta:50,unavailable:[40]}})).status,200);
+assert.equal((await request('/orders',{method:'POST',cookie:freshCookie,data:{...order,nonce:'unavailable-half-test-123',items:[{...item,second:40}]}})).status,409);
+await request('/staff/store',{method:'PUT',uid:'owner',data:{accepting:true,eta:40,unavailable:[]}});
+const photoOrder=await request('/orders',{method:'POST',cookie:freshCookie,data:{...order,nonce:'courier-photo-test-123'}});assert.equal(photoOrder.status,201);const photoOrderId=photoOrder.body.order.id;
+await request('/orders/'+photoOrderId+'/assign',{method:'POST',uid:'owner',data:{slot:1}});
+assert.equal((await request('/orders/'+photoOrderId,{cookie:freshCookie})).body.order.courier,null);
+for(const state of ['confirmed','preparing','ready'])assert.equal((await request('/orders/'+photoOrderId+'/status',{method:'POST',uid:'owner',data:{status:state,eta:40}})).status,200);
+const publicDriver=(await request('/orders/'+photoOrderId,{cookie:freshCookie})).body.order.courier;assert.equal(publicDriver.name,'João');assert.equal(publicDriver.vehicle,'Moto preta');assert.equal(publicDriver.phone,undefined);assert.equal(publicDriver.token_hash,undefined);
+assert.equal((await request('/orders/'+photoOrderId+'/driver-photo',{cookie:other})).status,403);
+const imageBytes=new Uint8Array([255,216,255,217]);env.UPLOADS={async get(){return{body:imageBytes}}};sql.prepare("UPDATE drivers SET photo_key='test-photo.jpg' WHERE slot=1").run();
+const photoResponse=await api(new Request('https://test.example/api/orders/'+photoOrderId+'/driver-photo',{headers:{cookie:freshCookie}}),env,ctx);assert.equal(photoResponse.status,200);assert.equal(photoResponse.headers.get('content-type'),'image/jpeg');assert.deepEqual(new Uint8Array(await photoResponse.arrayBuffer()),imageBytes);
+assert.equal((await request('/staff/insights')).status,403);assert.ok((await request('/staff/insights',{uid:'owner'})).body.days.length);
+console.log('PASS: store pause, unavailable half-pizza rejection, staff-only controls/insights, courier identity only when ready/onway, protected photo and no driver contact/token disclosure.');

@@ -63,3 +63,17 @@ Para publicar: importar este repositório na Vercel, preset Other, manter os com
 Antes de promover a entrada Vercel, testar autenticação, gravação de pedido, API de fotos, notificações e limites: o backend recebe tráfego intermediado pela função, podendo agrupar limites de IP. O deploy atual pelo endereço original permanece a opção validada até concluir esse teste.
 
 Validação automática: node tests/order-flow.mjs. Cobre conta/recuperação, taxas, sabores, preços, carrinho, idempotência, isolamento, códigos privados, entregadores, transições, preferências, cashback e push criptografado. Não envia mensagens WhatsApp nem consome códigos reais.
+
+## Edição de atendimento e operação — pesquisa aplicada
+
+Referências primárias consultadas: Square, personalização de pedidos online (https://api.squareup.com/help/us/en/article/6861-create-an-order-online-page-with-square-online-store); Square KDS e temporizadores (https://squareup.com/help/us/en/article/7944-get-started-with-square-kds-android); Toast, fluxo de conclusão no KDS (https://support.toasttab.com/en/article/Item-and-Order-Fulfillment-on-KDS). São referências de recursos existentes, não evidência de um ranking global nem promessa de aumento de vendas.
+
+Módulos e funcionamento:
+- Loja: primeira compra sem cadastro obrigatório, recompra com preços atuais, sugestão opcional de bebida, carrinho, benefícios e acompanhamento.
+- Operação: centro de atendimento para pausar novos pedidos, sugerir prazo e marcar sabores/bebidas indisponíveis. Bloqueio validado no servidor, inclusive segunda metade da pizza. Painel de sete dias mostra pedidos criados e valores dos entregues, sem confundir receita com lucro.
+- Cozinha: etapas por clique e confirmação, previsão escolhida em lista, horários efetivamente registrados e aviso de prazo ultrapassado. Nenhuma transição é disparada pelo relógio.
+- Entregas: responsável atribuído e perfil persistente; nome, veículo e foto ficam visíveis somente ao cliente autorizado quando o pedido está pronto ou a caminho. A foto exige cookie do cliente ou token de acompanhamento, não é uma galeria pública de entregadores.
+- Agenda, Clientes e Acessos: capacidades anteriores e credenciais preservadas.
+- Visual: relógio numerado + hora digital da Bahia, barra de cinco etapas para entrega e quatro para retirada, animação suave e respeito à preferência por movimento reduzido. A loja pública não oferece link de administração, atalho de instalação para administração nem iFood.
+
+Notificações continuam dependentes da permissão e suporte do aparelho. Atualizações visuais por consulta periódica não equivalem a rastreamento GPS em movimento. Testes automatizados adicionais cobrem pausa, disponibilidade de meia pizza, informações do entregador e privacidade da foto.
