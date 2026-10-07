@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1791326495135,
+      "tag": "0000_silky_ultimates",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1791372896541,
+      "tag": "0001_chubby_skullbuster",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1791375299872,
+      "tag": "0002_parched_gauntlet",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1791377061834,
+      "tag": "0003_careless_lorna_dane",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1791391808446,
+      "tag": "0004_faithful_miek",
+      "breakpoints": true
+    }
+  ]
+}
