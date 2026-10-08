@@ -1,0 +1,64 @@
+[
+  {
+    "name": "itaipava-lata",
+    "url": "https://www.arenaatacado.com.br/on/demandware.static/-/Sites-storefront-catalog-sv/default/dw5a9853eb/Produtos/12892-7897395020101-cerveja%20itaipava%20lata%20350ml-itaipava-1.jpg",
+    "bytes": 90783,
+    "reuse": "Retailer product photo; no explicit reuse license verified. Beer volume not catalog-confirmed.",
+    "asset": "public/assets/drinks/63.jpg"
+  },
+  {
+    "name": "skol-lata",
+    "url": "https://santaluzia.vtexassets.com/arquivos/ids/981536/512257.jpg",
+    "bytes": 86498,
+    "reuse": "Retailer product photo; no explicit reuse license verified. Beer volume not catalog-confirmed.",
+    "asset": "public/assets/drinks/64.jpg"
+  },
+  {
+    "name": "original-lata",
+    "url": "https://coopsp.vtexassets.com/arquivos/ids/232285/Novo-Projeto---2023-03-31T151225.311.jpg",
+    "bytes": 99364,
+    "reuse": "Retailer product photo; no explicit reuse license verified. Beer volume not catalog-confirmed.",
+    "asset": "public/assets/drinks/65.jpg"
+  },
+  {
+    "name": "amstel-lata",
+    "url": "https://cdn.shopify.com/s/files/1/0587/8487/4575/files/33fd0672-13e1-4693-a51e-534ba270b2b5.jpg",
+    "bytes": 54672,
+    "reuse": "Retailer product photo; no explicit reuse license verified. Beer volume not catalog-confirmed.",
+    "asset": "public/assets/drinks/66.jpg"
+  },
+  {
+    "name": "corona-garrafa",
+    "url": "https://www.sondadelivery.com.br/Arquivos/ProdutosSku/1486551/Sem-Titulo-5.jpg",
+    "bytes": 91497,
+    "reuse": "Retailer product photo; no explicit reuse license verified. Beer volume not catalog-confirmed.",
+    "asset": "public/assets/drinks/67.jpg"
+  },
+  {
+    "name": "imperio-ultra",
+    "url": "https://phygital-files.mercafacil.com/irani-bucket/uploads/produto/cerveja_imp_rio_ultra_275ml_long_neck_fe9a80b6-51c7-4faa-87c0-3ed0fcc901f3.png",
+    "bytes": 131195,
+    "reuse": "Retailer product photo; no explicit reuse license verified. Beer volume not catalog-confirmed.",
+    "asset": "public/assets/drinks/68.png"
+  },
+  {
+    "name": "sprite-2l",
+    "url": "https://www.drogariaminasbrasil.com.br/media/webp/catalog/product/cache/74c1057f7991b4edb2bc7bdaa94de933/image/607736450/refrigerante-sprite-2-litros_jpg.webp",
+    "bytes": 129464,
+    "reuse": "Retailer photo; no explicit reuse license verified.",
+    "asset": "public/assets/drinks/69.webp"
+  },
+  {
+    "name": "guarana-1l",
+    "url": "https://carrefourbrfood.vtexassets.com/arquivos/ids/106450259/refrigerante-antarctica-guarana-garrafa-1l-regular-1.jpg",
+    "bytes": 50789,
+    "reuse": "Retailer photo; no explicit reuse license verified.",
+    "asset": "public/assets/drinks/70.jpg"
+  },
+  {
+    "name": "fanta-laranja-1l",
+    "url": "https://www.arasuper.com.br/uploads/produtos/2333_arasuper_refrigerante_refrigerante-laranja-fanta-garrafa-1l.jpg",
+    "reuse": "Retailer product photo; no explicit reuse license verified.",
+    "asset": "public/assets/drinks/71.jpg"
+  }
+]

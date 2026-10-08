@@ -1,0 +1,86 @@
+[
+  {
+    "name": "coca-cola-2l",
+    "url": "https://assets.ibecom.com.br/ib.item.image.large/l-6914a2bb4f5945e096287835120c831e.png",
+    "bytes": 457748,
+    "reuse": "Retailer product photo. No explicit reuse license verified; brand trademarks retained.",
+    "asset": "public/assets/drinks/51.png"
+  },
+  {
+    "name": "coca-cola-1l",
+    "url": "https://carrefourbrfood.vtexassets.com/arquivos/ids/18900734/coca-cola-1-litro-1.jpg",
+    "bytes": 73751,
+    "reuse": "Retailer product photo. No explicit reuse license verified; brand trademarks retained.",
+    "asset": "public/assets/drinks/52.jpg"
+  },
+  {
+    "name": "coca-cola-350ml",
+    "url": "https://carrefourbrfood.vtexassets.com/arquivos/ids/213629771/B2-12-156892_1.jpg",
+    "bytes": 88342,
+    "reuse": "Retailer product photo. No explicit reuse license verified; brand trademarks retained.",
+    "asset": "public/assets/drinks/53.jpg"
+  },
+  {
+    "name": "coca-cola-zero-2l",
+    "url": "https://samsclub.vtexassets.com/arquivos/ids/218840/7894900701517---REF-COCA-COLA-ZERO-2L.jpg",
+    "bytes": 45966,
+    "reuse": "Retailer product photo. No explicit reuse license verified; brand trademarks retained.",
+    "asset": "public/assets/drinks/58.jpg"
+  },
+  {
+    "name": "coca-cola-zero-350ml",
+    "url": "https://www.sondadelivery.com.br/Arquivos/ProdutosSku/868965/7894900700015.png",
+    "bytes": 736588,
+    "reuse": "Retailer product photo. No explicit reuse license verified; brand trademarks retained.",
+    "asset": "public/assets/drinks/62.png"
+  },
+  {
+    "name": "guarana-2l",
+    "url": "https://d3gdr9n5lqb5z7.cloudfront.net/fotos/1614712485849.jpg",
+    "bytes": 61535,
+    "reuse": "Retailer product photo. No explicit reuse license verified; brand trademarks retained.",
+    "asset": "public/assets/drinks/59.jpg"
+  },
+  {
+    "name": "guarana-350ml",
+    "url": "https://static.extramercado.com.br/img/uploads/1/84/33329084.jpg",
+    "bytes": 84266,
+    "reuse": "Retailer product photo. No explicit reuse license verified; brand trademarks retained.",
+    "asset": "public/assets/drinks/61.jpg"
+  },
+  {
+    "name": "fanta-laranja-2l",
+    "url": "https://static.extramercado.com.br/img/uploads/1/955/33321955.png",
+    "bytes": 686625,
+    "reuse": "Retailer product photo. No explicit reuse license verified; brand trademarks retained.",
+    "asset": "public/assets/drinks/60.png"
+  },
+  {
+    "name": "heineken-330ml",
+    "url": "https://images.tcdn.com.br/img/img_prod/1099308/cerveja_heineken_long_neck_330ml_782_2_a5ef9669e349cf3c67b4090eafd5bbce.jpg",
+    "bytes": 85280,
+    "reuse": "Retailer product photo. No explicit reuse license verified; brand trademarks retained.",
+    "asset": "public/assets/drinks/55.jpg"
+  },
+  {
+    "name": "water-sparkling-500ml",
+    "url": "https://swiftbr.vteximg.com.br/arquivos/ids/207140-702-702/620804-agua-com-gas-crystal_mck.webp",
+    "bytes": 33492,
+    "reuse": "Retailer product photo. No explicit reuse license verified; brand trademarks retained.",
+    "asset": "public/assets/drinks/56.jpg"
+  },
+  {
+    "name": "water-still-500ml",
+    "url": "https://drogariaglobo.vtexassets.com/arquivos/ids/1065368/Agua-Mineral-Cristal-Sem-Gas-500Ml.jpg",
+    "bytes": 47406,
+    "reuse": "Retailer product photo. No explicit reuse license verified; brand trademarks retained.",
+    "asset": "public/assets/drinks/57.jpg"
+  },
+  {
+    "name": "brahma-350ml",
+    "url": "https://www.bernardaoemcasa.com.br/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/w/h/whatsapp_image_2024-09-25_at_12.51.32.jpeg",
+    "bytes": 213923,
+    "reuse": "Retailer product photo. No explicit reuse license verified; brand trademarks retained.",
+    "asset": "public/assets/drinks/54.jpg"
+  }
+]

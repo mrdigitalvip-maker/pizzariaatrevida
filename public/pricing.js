@@ -1,0 +1,2 @@
+export const inauguration={type:'percentage',value:10,name:'Desconto de inauguração',active:true};
+export function calculateTotals(subtotal,deliveryFee,promotion=inauguration,cashback=0){const discount=promotion?.active?Math.floor(subtotal*promotion.value/100):0;const discountedProducts=subtotal-discount;const cashbackUsed=Math.max(0,Math.min(Math.floor(cashback),Math.floor(discountedProducts*.2)));return{subtotal,promotionDiscount:discount,discountedProducts,deliveryFee,cashbackUsed,total:discountedProducts+deliveryFee-cashbackUsed,promotion:discount?{...promotion}:null}}
