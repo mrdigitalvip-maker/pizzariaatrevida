@@ -8,7 +8,22 @@ const reply=(v,status=200,headers={})=>new Response(JSON.stringify(v),{status,he
 const cfg=env=>JSON.parse(env.STAFF_ACCESS_CONFIG||'{"accounts":[]}');
 export const allowed=(env,email)=>cfg(env).accounts.find(a=>a.email===email);
 const tokenOf=req=>req.headers.get('cookie')?.match(/(?:^|;\s*)atrevida_staff=([\w-]{43})(?:;|$)/)?.[1];
-async function seed(env){const tasks=[];for(const a of cfg(env).accounts){tasks.push(env.DB.prepare('INSERT OR IGNORE INTO access_batches (id,email,generation,created) VALUES (?,?,0,?)').bind(a.email+':0',a.email,now()));for(const h of a.hashes)tasks.push(env.DB.prepare('INSERT OR IGNORE INTO access_codes (hash,email,batch,used) VALUES (?,?,?,NULL)').bind(h,a.email,a.email+':0'))}if(tasks.length)await env.DB.batch(tasks)}
+async function seed(env){const tasks=[];for(const a of cfg(env).accounts){tasks.push(env.DB.prepare('INSERT OR IGNORE INTO access_batches (id,email,generation,created) VALUES (?,?,0,?)').bind(a.email+':0',a.email,now()));for(const h of a.hashes)tasks.push(env.DB.prepare('INSERT OR IGNORE INTO access_codes (hash,email,batch,used) VALUES (?,?,?,NULL)').bind(h,a.email,a.email+':0'))}if(tasks.length)await env.DB.batch(tasks);await recoverAccess(env)}
+
+// Owner-authorized recovery. Only hashes live in the runtime secret; never in source.
+// A durable batch marker makes this a one-time atomic replacement, not a login bypass.
+async function recoverAccess(env){
+ if(!env.STAFF_ACCESS_RECOVERY_CONFIG)return;
+ const r=JSON.parse(env.STAFF_ACCESS_RECOVERY_CONFIG),email=emailOf(r.email);
+ if(!allowed(env,email)||!/^recovery:[\w-]{20,80}$/.test(r.id||'')||!Array.isArray(r.hashes)||r.hashes.length!==5||new Set(r.hashes).size!==5||r.hashes.some(h=>!/^[-\w]{43}$/.test(h)))throw Error('Invalid access recovery configuration');
+ if(await env.DB.prepare('SELECT id FROM access_batches WHERE id=?').bind(r.id).first())return;
+ await env.DB.batch([
+  env.DB.prepare('UPDATE access_codes SET used=? WHERE email=? AND used IS NULL AND NOT EXISTS (SELECT 1 FROM access_batches WHERE id=?)').bind('revoked:'+r.id,email,r.id),
+  env.DB.prepare('INSERT OR IGNORE INTO access_batches (id,email,generation,created) SELECT ?,?,COALESCE(MAX(generation),0)+1,? FROM access_batches WHERE email=?').bind(r.id,email,now(),email),
+  ...r.hashes.map(h=>env.DB.prepare('INSERT OR IGNORE INTO access_codes (hash,email,batch,used) VALUES (?,?,?,NULL)').bind(h,email,r.id))
+ ]);
+}
+
 export async function member(req,env){const token=tokenOf(req);if(!token)return null;const row=await env.DB.prepare('SELECT email,expires FROM staff_sessions WHERE hash=? AND expires>?').bind(await digest(token),now()).first();if(!row)return null;const a=allowed(env,row.email);return a?{id:'email:'+a.email,email:a.email,role:a.role,expires:row.expires}:null}
 async function limit(env,key,max){const t=Math.floor(now()/600000);const r=await env.DB.prepare('INSERT INTO rate_limits (key,count,window) VALUES (?,1,?) ON CONFLICT(key) DO UPDATE SET count=CASE WHEN window=excluded.window THEN count+1 ELSE 1 END,window=excluded.window RETURNING count').bind(key,t).first();if(r.count>max)reject(429,'Muitas tentativas. Aguarde 10 minutos e tente novamente.')}
 const remaining=async(env,email)=>(await env.DB.prepare('SELECT count(*) AS n FROM access_codes WHERE email=? AND used IS NULL').bind(email).first()).n;
