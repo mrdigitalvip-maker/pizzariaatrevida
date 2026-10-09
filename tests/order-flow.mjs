@@ -126,8 +126,23 @@ assert.equal((await request('/orders',{method:'POST',cookie:other,data:{...order
 const own=await hash(freshCookie.split('=')[1]);sql.prepare("UPDATE section_settings SET data=json_set(data,'$.expires',0) WHERE owner=? AND section='delivery_quote'").run(own);
 assert.equal((await request('/orders',{method:'POST',cookie:freshCookie,data:{...order,nonce:crypto.randomUUID(),deliveryQuoteId:quote.body.id}})).status,409);
 mapsFail=true;assert.equal((await request('/delivery/quote',{method:'POST',cookie:freshCookie,data:order})).status,503);mapsFail=false;
-delete env.GOOGLE_MAPS_API_KEY;assert.equal((await request('/delivery/quote',{method:'POST',cookie:freshCookie,data:order})).status,503);
-console.log('PASS: road-distance fee tiers, member floor, range limit, expired/changed/foreign quote rejection, map outage and unconfigured delivery fail closed.');
+delete env.GOOGLE_MAPS_API_KEY;
+sql.exec('DELETE FROM rate_limits');
+const manualQuote=await request('/delivery/quote',{method:'POST',cookie:freshCookie,data:order});assert.equal(manualQuote.status,200);assert.equal(manualQuote.body.fee,null);assert.equal(manualQuote.body.pending,true);assert.equal(manualQuote.body.distanceMeters,null);
+const manualData={...order,nonce:crypto.randomUUID(),channel:'whatsapp',complement:'Quadra N lote 5',deliveryQuoteId:manualQuote.body.id,expectedDeliveryFee:null};
+const manualSale=await request('/orders',{method:'POST',cookie:freshCookie,data:manualData});assert.equal(manualSale.status,201);assert.equal(manualSale.body.order.total,null);assert.equal(manualSale.body.order.data.deliveryPending,true);assert.match(decodeURIComponent(manualSale.body.whatsapp),/A confirmar pela pizzaria/);assert.match(decodeURIComponent(manualSale.body.whatsapp),/Quadra N lote 5/);assert.equal((await request('/orders',{method:'POST',cookie:freshCookie,data:manualData})).body.order.id,manualSale.body.order.id);
+const mid=manualSale.body.order.id;await Promise.allSettled(pending);assert.equal(sql.prepare('SELECT count(*) AS n FROM print_jobs WHERE order_id=?').get(mid).n,0);
+assert.equal((await request('/orders/'+mid+'/status',{method:'POST',uid:'owner',data:{status:'confirmed',eta:40}})).status,400);
+assert.equal((await request('/orders/'+mid+'/status',{method:'POST',uid:'owner',data:{status:'quote',deliveryFee:10,eta:40}})).status,400);
+assert.equal((await request('/orders/'+mid+'/status',{method:'POST',uid:'owner',data:{status:'quote',deliveryFee:1799,eta:40}})).status,200);
+const quoted=(await request('/orders/'+mid,{cookie:freshCookie})).body.order;assert.equal(quoted.total,quoted.known_total+1799);assert.equal(quoted.data.deliveryFee,1799);
+assert.equal((await request('/orders/'+mid+'/manual-approve',{method:'POST',uid:'owner',data:{total:quoted.total,accepted:true}})).status,200);
+for(const status of ['preparing','ready'])assert.equal((await request('/orders/'+mid+'/status',{method:'POST',uid:'owner',data:{status}})).status,200);
+const mlink=(await request('/orders/'+mid+'/courier',{method:'POST',uid:'owner'})).body.url;const mtoken=mlink.split(':').at(-1);
+for(const status of ['onway','delivered'])assert.equal((await request('/orders/'+mid+'/status',{method:'POST',token:mtoken,data:{status}})).status,200);
+console.log('PASS: no-map delivery → complete WhatsApp message → one saved order → private fee quote → customer approval recorded → kitchen → scoped courier delivery.');
+
+console.log('PASS: road-distance fee tiers, member floor, range limit, expired/changed/foreign quote rejection, map outage and no-map delivery pending staff confirmation.');
 // Final inauguration / offline / payment / print acceptance against isolated adapters.
 const {calculateTotals}=await import('../public/pricing.js');
 const {initializePayment,applyPaymentNotification,verifyWebhook,paymentConfig}=await import('../server/payments.js');
