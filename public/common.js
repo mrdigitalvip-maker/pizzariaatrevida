@@ -1,9 +1,10 @@
+let staffToken=null;try{staffToken=sessionStorage.getItem('atrevida-staff')}catch{}
 let guestToken=null;try{guestToken=sessionStorage.getItem('atrevida-guest')}catch{}
 export async function api(path,options={}){
  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),20000);
- try{const res=await fetch('/api'+path,{...options,signal:options.signal||controller.signal,headers:{'Content-Type':'application/json',...(guestToken?{'x-atrevida-guest':guestToken}:{}),...options.headers},credentials:'same-origin',cache:'no-store'});let data;
+ try{const res=await fetch('/api'+path,{...options,signal:options.signal||controller.signal,headers:{'Content-Type':'application/json',...(guestToken?{'x-atrevida-guest':guestToken}:{}),...(staffToken?{'x-atrevida-staff':staffToken}:{}),...options.headers},credentials:'same-origin',cache:'no-store'});let data;
  try{data=await res.json()}catch(e){if(controller.signal.aborted)throw e;throw Error('Resposta indisponível. Confira Meus pedidos antes de tentar novamente.')}
- if(!res.ok)throw Object.assign(Error(data.error||'Não foi possível concluir.'),{status:res.status});if(path==='/session'&&/^[\w-]{43}$/.test(data.guestToken||'')){guestToken=data.guestToken;try{sessionStorage.setItem('atrevida-guest',guestToken)}catch{}}return data;
+ if(!res.ok)throw Object.assign(Error(data.error||'Não foi possível concluir.'),{status:res.status});if(path==='/session'&&/^[\w-]{43}$/.test(data.guestToken||'')){guestToken=data.guestToken;try{sessionStorage.setItem('atrevida-guest',guestToken)}catch{}}if(path==='/staff/login'&&/^[\w-]{43}$/.test(data.staffToken||'')){staffToken=data.staffToken;try{sessionStorage.setItem('atrevida-staff',staffToken)}catch{}}if(path==='/staff/logout'){staffToken=null;try{sessionStorage.removeItem('atrevida-staff')}catch{}}return data;
  }catch(e){if(controller.signal.aborted||e.name==='TimeoutError'||e.name==='AbortError')throw Error('A conexão demorou. Confira Meus pedidos antes de tentar novamente; seu carrinho continua salvo.');if(e instanceof TypeError)throw Error('Sem conexão com a pizzaria. Confira sua internet e tente novamente.');throw e;}finally{clearTimeout(timer)}
 }
 

@@ -7,7 +7,7 @@ const reject=(status,message)=>{throw Object.assign(Error(message),{status})};
 const reply=(v,status=200,headers={})=>new Response(JSON.stringify(v),{status,headers:{'content-type':'application/json','cache-control':'no-store',...headers}});
 const cfg=env=>JSON.parse(env.STAFF_ACCESS_CONFIG||'{"accounts":[]}');
 export const allowed=(env,email)=>cfg(env).accounts.find(a=>a.email===email);
-const tokenOf=req=>req.headers.get('cookie')?.match(/(?:^|;\s*)atrevida_staff=([\w-]{43})(?:;|$)/)?.[1];
+const tokenOf=req=>(/^[\w-]{43}$/.test(req.headers.get('x-atrevida-staff')||'')?req.headers.get('x-atrevida-staff'):null)||req.headers.get('cookie')?.match(/(?:^|;\s*)atrevida_staff=([\w-]{43})(?:;|$)/)?.[1];
 async function seed(env){const tasks=[];for(const a of cfg(env).accounts){tasks.push(env.DB.prepare('INSERT OR IGNORE INTO access_batches (id,email,generation,created) VALUES (?,?,0,?)').bind(a.email+':0',a.email,now()));for(const h of a.hashes)tasks.push(env.DB.prepare('INSERT OR IGNORE INTO access_codes (hash,email,batch,used) VALUES (?,?,?,NULL)').bind(h,a.email,a.email+':0'))}if(tasks.length)await env.DB.batch(tasks);await recoverAccess(env)}
 
 // Owner-authorized recovery. Only hashes live in the runtime secret; never in source.
@@ -38,7 +38,7 @@ export async function access(req,env,ctx,path,body){
    env.DB.prepare('INSERT INTO staff_sessions (hash,email,expires) SELECT ?,?,? WHERE EXISTS (SELECT 1 FROM access_codes WHERE hash=? AND used=?)').bind(sessionHash,email,t+43200000,h,sessionHash)
   ]);if(!result[0].meta.changes)reject(403,'Acesso não autorizado. Confira seu e-mail e um código ainda não utilizado.');
   const left=await remaining(env,email);if(left===0)ctx.waitUntil(notify(env,'staff',null,{title:'Renovação de acesso necessária',body:'Um integrante utilizou seu último código. Confira a área de acessos.',url:'/equipe',tag:'access-renewal'}));
-  return reply({ok:true,remaining:left},200,{'set-cookie':`atrevida_staff=${token}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=43200`});
+  return reply({ok:true,remaining:left,staffToken:token,expires:t+43200000},200,{'set-cookie':`atrevida_staff=${token}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=43200`});
  }
  if(path==='/staff/logout'&&req.method==='POST'){const token=tokenOf(req);if(token)await env.DB.prepare('DELETE FROM staff_sessions WHERE hash=?').bind(await digest(token)).run();return reply({ok:true},200,{'set-cookie':'atrevida_staff=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0'})}
  if(path==='/staff/access'&&req.method==='GET'){const s=await member(req,env);if(!s)reject(403,'Entre na área privada');await seed(env);const accounts=s.role==='admin'?cfg(env).accounts:[allowed(env,s.email)];return reply({accounts:await Promise.all(accounts.map(async a=>({email:a.email,role:a.role,remaining:await remaining(env,a.email)}))),canRenew:s.role==='admin',expires:s.expires})}
