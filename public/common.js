@@ -1,4 +1,11 @@
-export async function api(path,options={}){const res=await fetch('/api'+path,{...options,headers:{'Content-Type':'application/json',...options.headers},credentials:'same-origin',cache:'no-store'});let data;try{data=await res.json()}catch{throw Error('Conexão indisponível. Tente novamente.')}if(!res.ok)throw Object.assign(Error(data.error||'Não foi possível concluir.'),{status:res.status});return data}
+export async function api(path,options={}){
+ const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),20000);
+ try{const res=await fetch('/api'+path,{...options,signal:options.signal||controller.signal,headers:{'Content-Type':'application/json',...options.headers},credentials:'same-origin',cache:'no-store'});let data;
+ try{data=await res.json()}catch(e){if(controller.signal.aborted)throw e;throw Error('Resposta indisponível. Confira Meus pedidos antes de tentar novamente.')}
+ if(!res.ok)throw Object.assign(Error(data.error||'Não foi possível concluir.'),{status:res.status});return data;
+ }catch(e){if(controller.signal.aborted||e.name==='TimeoutError'||e.name==='AbortError')throw Error('A conexão demorou. Confira Meus pedidos antes de tentar novamente; seu carrinho continua salvo.');if(e instanceof TypeError)throw Error('Sem conexão com a pizzaria. Confira sua internet e tente novamente.');throw e;}finally{clearTimeout(timer)}
+}
+
 let installPrompt;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e});
 export async function installApp(){if(installPrompt){await installPrompt.prompt();installPrompt=null}else if(document.querySelector('#install-dialog'))document.querySelector('#install-dialog').showModal();else alert('Android: menu do navegador > Instalar aplicativo. iPhone: Safari > Compartilhar > Adicionar à Tela de Início. Abra pelo ícone para ativar notificações.')}
 export async function bootPWA(){if('serviceWorker'in navigator){try{return await navigator.serviceWorker.register('/sw.js',{scope:'/'})}catch{const h=document.querySelector('#notification-help');if(h)h.textContent='Notificações indisponíveis neste navegador. Acompanhe o pedido nesta tela.'}}}

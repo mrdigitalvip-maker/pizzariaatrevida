@@ -18,6 +18,8 @@ assert.equal((await request('/draft',{method:'PUT',cookie,data:{items:[item]}}))
 let result=await request('/orders',{method:'POST',cookie,data:order});assert.equal(result.status,201);assert.equal(result.body.order.known_total,5499);assert.match(result.body.whatsapp,/wa.me\/557798071769/);const id=result.body.order.id;
 assert.equal((await request('/orders',{method:'POST',cookie,data:order})).body.order.id,id);assert.equal((await request('/orders',{cookie:other})).body.orders.length,0);assert.equal((await request('/orders/'+id,{cookie:other})).status,403);
 assert.equal((await request('/staff/orders',{uid:'outsider'})).status,403);
+const savedWA=await request('/orders/'+id+'/whatsapp',{cookie});assert.equal(savedWA.status,200);assert.match(decodeURIComponent(savedWA.body.whatsapp),/Cliente Teste/);assert.equal((await request('/orders/'+id+'/whatsapp',{cookie:other})).status,403);assert.equal((await request('/orders/'+id+'/whatsapp')).status,403);assert.equal(sql.prepare('SELECT count(*) AS n FROM orders WHERE id=?').get(id).n,1);
+
 assert.equal((await request('/staff/login',{method:'POST',data:{email:'mrdigitalvip@gmail.com',code:testCodes[0]}})).status,403);
 const login=await request('/staff/login',{method:'POST',data:{email:testEmail,code:testCodes[0]}});assert.equal(login.status,200);assert.equal(login.body.remaining,4);staffCookie=login.cookie;
 assert.equal((await request('/staff/login',{method:'POST',data:{email:testEmail,code:testCodes[0]}})).status,403);
