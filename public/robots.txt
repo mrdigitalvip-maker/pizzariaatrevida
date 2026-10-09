@@ -7,6 +7,10 @@ Disallow: /acompanhar
 Disallow: /staff.html
 Disallow: /courier.html
 Disallow: /tracking.html
-Sitemap: https://pizzaria-atrevida-lem.mr-bruno01.chatgpt.site/sitemap.xml
+Sitemap: https://pizzariaatrevida.pizza/sitemap.xml
 
 Disallow: /entregador
+
+Disallow: /driver.html
+Disallow: /payment.html
+Disallow: /receipt.html

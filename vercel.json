@@ -1,16 +1,66 @@
 {
-  "$schema":"https://openapi.vercel.sh/vercel.json",
-  "framework":null,
-  "buildCommand":"node scripts/build-vercel.mjs",
-  "installCommand":"echo Frontend sem dependencias de instalacao",
-  "outputDirectory":"vercel-public",
-  "functions":{"api/bridge.js":{"maxDuration":30}},
-  "rewrites":[
-    {"source":"/api/:path*","destination":"/api/bridge?path=api/:path*"},
-    {"source":"/equipe","destination":"/staff.html"},
-    {"source":"/entregador","destination":"/driver.html"},
-    {"source":"/entrega","destination":"/courier.html"},
-    {"source":"/acompanhar","destination":"/tracking.html"}
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "node scripts/build-vercel.mjs",
+  "installCommand": "echo Frontend sem dependencias de instalacao",
+  "outputDirectory": "vercel-public",
+  "functions": {
+    "api/bridge.js": {
+      "maxDuration": 30
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "/api/bridge?path=api/:path*"
+    },
+    {
+      "source": "/equipe",
+      "destination": "/staff.html"
+    },
+    {
+      "source": "/entregador",
+      "destination": "/driver.html"
+    },
+    {
+      "source": "/entrega",
+      "destination": "/courier.html"
+    },
+    {
+      "source": "/acompanhar",
+      "destination": "/tracking.html"
+    }
   ],
-  "headers":[{"source":"/:path*","headers":[{"key":"X-Content-Type-Options","value":"nosniff"},{"key":"Referrer-Policy","value":"same-origin"},{"key":"X-Frame-Options","value":"DENY"}]}]
+  "headers": [
+    {
+      "source": "/:path*",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.pizzariaatrevida.pizza"
+        }
+      ],
+      "destination": "https://pizzariaatrevida.pizza/:path*",
+      "permanent": true
+    }
+  ]
 }
