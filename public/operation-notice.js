@@ -2,7 +2,7 @@ import {api} from '/common.js';
 
 function injectPolish(){
  if(document.querySelector('link[data-admin-live-polish]'))return;
- const link=document.createElement('link');link.rel='stylesheet';link.href='/admin-live-polish.css?v=login-20261010';link.dataset.adminLivePolish='1';document.head.append(link);
+ const link=document.createElement('link');link.rel='stylesheet';link.href='/admin-live-polish.css?v=login-20261011';link.dataset.adminLivePolish='1';document.head.append(link);
 }
 
 function installReliableLogin(){
@@ -28,10 +28,16 @@ function installReliableLogin(){
    if(!login?.ok||!login?.staffToken)throw Error('O servidor não confirmou o acesso.');
    message.textContent='Acesso autorizado. Confirmando sessão…';
    const session=await api('/session');
-   if(!session?.staff)throw Error('O acesso foi aceito, mas a sessão não abriu. Recarregue a página e tente novamente.');
-   message.textContent='Acesso autorizado. Abrindo painel…';
-   document.querySelector('#signin').hidden=true;document.querySelector('#staff-panel').hidden=false;
-   location.replace('/equipe?acesso='+Date.now());
+   if(!session?.staff)throw Error('O acesso foi aceito, mas a sessão não abriu. Tente novamente.');
+   if(secret)secret.value='';
+   document.querySelector('#signin').hidden=true;
+   document.querySelector('#staff-panel').hidden=false;
+   message.textContent='Acesso autorizado · '+(session.staff.email||normalizedEmail);
+   submit.textContent='Acesso autorizado';
+   // Não recarrega a página aqui. O reload estava derrubando a sessão em alguns navegadores móveis.
+   // Mantemos o token já confirmado em memória/sessionStorage e abrimos a operação imediatamente.
+   await window.loadOrders?.();
+   await mount();
   }catch(err){
    message.textContent=String(err?.message||'Não foi possível entrar. Confira o e-mail e o PIN.');
    submit.disabled=false;submit.textContent='Acessar painel';
