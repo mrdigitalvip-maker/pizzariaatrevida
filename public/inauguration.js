@@ -59,3 +59,4 @@ if(typeof document!=='undefined'){
  const update=()=>{const card=document.getElementById('inauguration-banner');if(card){const title=inaugurationTitle(Date.now(),window.storeConfig?.promotion);card.hidden=!title;const target=document.getElementById('inauguration-title');if(target)target.textContent=title}polishPublic();};
  update();setInterval(update,15000);document.addEventListener('visibilitychange',update);
 }
+
