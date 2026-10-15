@@ -51,7 +51,7 @@ function polishPublic(){
  let opening=document.querySelector('#public-opening-status');
  if(!opening){opening=document.createElement('section');opening.id='public-opening-status';opening.className='public-opening-status';opening.setAttribute('aria-label','Funcionamento da Pizzaria Atrevida');const strip=document.querySelector('.public-live-strip'),club=document.querySelector('#club-banner');(strip||club)?.insertAdjacentElement('afterend',opening)}
  if(opening)opening.innerHTML=openingMarkup();
- if(hero&&orders&&orders.nextElementSibling!==hero)hero.insertAdjacentElement('beforebegin',orders);
+ // The brand hero stays first; order tracking remains in its document position.
  const title=orders?.querySelector('.section-title h2');if(title&&!title.querySelector('.public-live-label')){const live=document.createElement('span');live.className='public-live-label';live.textContent='AO VIVO';title.append(live)}
  const localText=document.querySelector('#local .contact-card p');if(localText)localText.textContent='Funcionamento regular de quinta a domingo. Em feriados, confira o aviso do dia e confirme o atendimento com a equipe.';
 }
