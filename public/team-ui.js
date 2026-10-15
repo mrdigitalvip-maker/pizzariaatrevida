@@ -1,4 +1,4 @@
-import{api}from'/common.js?v=pin-20261012';import{money}from'/catalog.js';import{uploadPhoto}from'/photo-upload.js';
+import{api}from'/common.js?v=menu-20261015';import{money}from'/catalog.js';import{uploadPhoto}from'/photo-upload.js';
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));let loaded=false;window.sectionPreferences={};window.driverRoster=[];
 const labels={orders:'Operação',kitchen:'Cozinha',delivery:'Entregas',agenda:'Agenda',clients:'Clientes',access:'Acessos'};
 function apply(){const view=window.activeStaffSection||'orders',p=window.sectionPreferences[view]||{};document.body.dataset.accent=p.accent||'gold';document.body.classList.toggle('compact-area',!!p.compact);$('#area-custom-title').textContent=p.title||labels[view];$('#driver-roster').hidden=view!=='delivery';if(p.filter)$('#status-filter').value=p.filter;window.renderStaff?.()}

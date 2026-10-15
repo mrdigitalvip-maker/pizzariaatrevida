@@ -15,3 +15,6 @@
 
 .product-photo:has(.drink-photo){background:#fff}.product-photo .drink-photo{width:100%;height:100%;object-fit:contain;padding:12px;box-sizing:border-box;background:white}.studio-card{padding:20px;border:1px solid #51513d;border-radius:16px;margin:20px 0}#freight-review{padding:16px;border:1px solid #b9a03a;border-radius:12px;margin:16px 0}#freight-review input[type=checkbox]{width:auto;margin-right:10px}#checkout-error{color:#ffdf78}
 #inauguration-banner[hidden]{display:none}#inauguration-banner{border:1px solid #ffcf24; margin:20px auto;max-width:1240px}#inauguration-banner h2{font-size:clamp(24px,4vw,36px)}
+
+/* Three-flavor selector stays readable on narrow screens. */
+.mode-toggle{flex-wrap:wrap}.mode-toggle button{flex:1 1 100px}.builder-flavor-preview{flex-wrap:wrap}
