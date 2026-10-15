@@ -18,3 +18,10 @@
 
 /* Three-flavor selector stays readable on narrow screens. */
 .mode-toggle{flex-wrap:wrap}.mode-toggle button{flex:1 1 100px}.builder-flavor-preview{flex-wrap:wrap}
+
+/* Atrevida 2.0: compact ordering and menu-level offers. */
+.menu-offer-label{display:inline-block;color:#ffdc55;border:1px solid #6d622c;border-radius:6px;padding:3px 8px;font-size:.78rem;font-weight:700}
+.order-steps{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:14px 0;color:#ccc}.order-steps span{font-size:.84rem}.order-steps button{margin-left:auto;padding:10px 14px}
+.checkout-options{margin:12px 0;padding:10px 0;border-bottom:1px solid #34362c}.checkout-options summary{cursor:pointer;font-weight:600;padding:8px 0}
+.promotion-manager{margin:20px 0;padding:22px;border:1px solid #58532d;border-radius:18px;background:#171b14}.offer-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.offer-fields input,.offer-fields select{width:100%;min-width:0}.offer-row{display:flex;justify-content:space-between;align-items:center;gap:12px;border-top:1px solid #363a30;padding:14px 0}.offer-row small{display:block;margin-top:5px;color:#c6c8bc}.offer-row button{padding:10px 12px}.offer-row>div:last-child{display:flex;gap:7px}.promotion-manager input[type=checkbox]{width:auto}.promotion-manager button:disabled{opacity:.5}
+@media(max-width:540px){.offer-fields{grid-template-columns:1fr}.promotion-manager{padding:15px}.offer-row{align-items:flex-start;flex-wrap:wrap}.order-steps button{margin-left:0;width:100%}.catalog-shortcuts{display:none}.hero-v2{padding-top:18px;padding-bottom:18px}.first-order-note{display:none}}
