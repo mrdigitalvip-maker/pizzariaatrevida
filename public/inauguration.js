@@ -42,7 +42,7 @@ function openingMarkup(now=Date.now()){
  return `<div class="opening-main"><span class="eyebrow">FUNCIONAMENTO</span><b>Quinta a domingo</b><span class="opening-status ${s.regular?'open-day':'closed-day'}">${status}</span></div><div class="opening-extra">${holiday||next}<small>Horários do dia são confirmados pela equipe.</small></div>`;
 }
 function polishPublic(){
- if(!document.querySelector('link[data-public-polish]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/public-polish.css';link.dataset.publicPolish='1';document.head.append(link)}
+ if(!document.querySelector('link[data-public-polish]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/public-polish.css?v=v25-20261017';link.dataset.publicPolish='1';document.head.append(link)}
  const main=document.querySelector('main'),hero=document.querySelector('.hero'),orders=document.querySelector('#my-orders');
  if(main&&!document.querySelector('.public-live-strip')){
   const strip=document.createElement('section');strip.className='public-live-strip';strip.setAttribute('aria-label','Informações rápidas do pedido');strip.innerHTML='<article class="public-live-card"><span class="public-live-icon">3x</span><span><b>Família com até 3 sabores</b><small>Média e grande: até dois sabores</small></span></article><article class="public-live-card"><span class="public-live-icon">↗</span><span><b>Entrega ou retirada</b><small>Taxa confirmada antes do preparo</small></span></article><article class="public-live-card live"><span class="public-live-icon">●</span><span><b>Acompanhe cada etapa</b><small>Pedido, preparo, pronto e entrega</small></span></article>';
