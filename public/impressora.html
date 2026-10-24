@@ -1,0 +1,21 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Impressora da loja · Atrevida</title><style>body{font:17px/1.6 system-ui;max-width:750px;margin:30px auto;padding:20px;background:#111;color:#eee}a{color:#ffd42a}button{padding:15px;background:#ffd42a;border:0;border-radius:8px;font-weight:bold;cursor:pointer}li{margin:15px 0}#test{display:none}@page{size:80mm auto;margin:0}@media print{body{margin:0;padding:4mm;width:80mm;color:#000;background:#fff}main{display:none}#test{display:block;font:13px/1.5 monospace;white-space:pre-wrap}}</style></head><body><main><h1>Imprimir na Tomate MDK-081</h1><p>Configuração inicial no computador da pizzaria. Depois disso, use “Imprimir pedido” no painel.</p><ol><li>Ligue a impressora, coloque a bobina térmica de 80 mm e conecte o cabo USB ao computador.</li><li>Instale o driver do fabricante para MDK-081. <a href="https://tomate.tv/products/perifericos/impressoras/impressora-termica-mdk-081-mdk-081" target="_blank" rel="noopener">Página oficial Tomate</a>. Se o download não estiver disponível, solicite ao suporte Tomate. Não escolha Microsoft Print to PDF.</li><li>No Windows, abra Configurações → Bluetooth e dispositivos → Impressoras e scanners. Selecione a térmica → Propriedades → Imprimir página de teste. Só continue quando o papel sair corretamente. “Generic / Text Only” aparecer na lista não comprova instalação correta.</li><li>Defina a térmica como impressora padrão. Em Preferências, selecione bobina de 80 mm. No navegador, selecione essa mesma impressora, escala 100%, margens nenhuma e desative cabeçalhos/rodapés.</li><li><button onclick="window.print()">🖨️ Imprimir teste Atrevida</button><p>Confirme que a frase “TESTE ATREVIDA OK” saiu inteira. Se não apareceu a térmica na lista, volte à instalação no Windows.</p></li><li>Abra <a href="/equipe">o painel da loja</a>, entre normalmente e clique em “Imprimir pedido” em um pedido. Confirme o destino na primeira impressão.</li></ol><h2>Modo automático</h2><p>No painel, abra “Impressora da loja” e ative “Automático neste computador” após testar. Só pedidos novos, recebidos depois de ativar, são enviados. O painel e o computador precisam ficar abertos e ligados. Ative em apenas um computador. Ao recarregar ou sair, ative novamente. Pedidos já existentes continuam disponíveis pelo botão manual.</p><h2>Imprimir sem a janela de confirmação</h2><p>O site não pode ativar sozinho a impressão silenciosa do Windows. Um técnico pode configurar o Chrome/Edge da estação da loja com a política <b>SilentPrintingEnabled</b> e a impressora térmica padrão. Essa configuração deve ser feita somente no computador dedicado da loja: ela permite imprimir sem confirmação nas páginas abertas nesse navegador.</p><p><a href="https://learn.microsoft.com/en-us/deployedge/microsoft-edge-browser-policies/silentprintingenabled" target="_blank" rel="noopener">Instruções oficiais Microsoft Edge</a></p><p>Sem essa configuração, o botão funciona com a confirmação normal de impressão. Não repita sem conferir o papel e a fila do Windows: cancelar o diálogo não informa ao site se houve impressão.</p><h2>PDF para o cliente</h2><p>Em “Meus pedidos”, escolha “Baixar comprovante PDF”. É um comprovante do pedido, sem valor fiscal. A emissão de NFC-e requer integração fiscal separada.</p></main><pre id="test">ATREVIDA PIZZARIA
+TESTE ATREVIDA OK
+
+Tomate MDK-081 · papel 80 mm
+Área útil: 72 mm
+
+1x Pizza Grande
+1/2 Mussarela + 1/2 Calabresa
+Borda: Catupiry
+Observação: teste de acentuação
+
+Produtos: R$ 60,00
+Desconto: - R$ 6,00
+Entrega: R$ 6,99
+TOTAL DE TESTE: R$ 60,99
+
+SEM PEDIDO REAL · NÃO PREPARAR
+Não é documento fiscal.
+
+--------------------------------
+</pre></body></html>
