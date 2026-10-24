@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import {readFileSync} from 'node:fs';
+const code=readFileSync('public/local-print.js','utf8').replace(/^import .*;\n/,'');
+const elements=new Map(),listeners={},opened=[],assigned=[];let popup=true,calls=0;
+const node=()=>({textContent:'',querySelector:s=>{if(!elements.has(s))elements.set(s,node());return elements.get(s)}});
+const context={document:{createElement:node,querySelector:()=>({prepend(){}})},window:{open:(...a)=>{opened.push(a);return popup?{}:null},addEventListener:(n,f)=>listeners[n]=f},location:{assign:u=>assigned.push(u),origin:'https://pizzariaatrevida.pizza'},api:async()=>{calls++;return{orders:[]}},alert(){},navigator:{locks:{request:async(k,o,f)=>f({})}},confirm:()=>true,localStorage:{getItem:()=> '[]'},setTimeout,clearTimeout,Set,JSON,encodeURIComponent};
+vm.runInNewContext(code,context);
+const id='12345678-0000-0000-0000-000000000000';
+assert.equal(context.window.printOrder(id),true);assert.equal(calls,0,'manual navigation must not await API');assert.equal(opened[0][0],'/receipt.html?id='+id+'&print=1');
+popup=false;context.window.printOrder(id);assert.equal(assigned[0],opened[0][0],'blocked popup falls back to same tab');
+const conf=JSON.parse(readFileSync('vercel.json','utf8'));const receipt=conf.headers.find(r=>r.source==='/receipt.html');assert.equal(receipt.headers.find(h=>h.key==='X-Frame-Options').value,'SAMEORIGIN');assert.equal(receipt.headers.find(h=>h.key==='Content-Security-Policy').value,"frame-ancestors 'self'");
+assert.match(readFileSync('public/receipt.js','utf8'),/await api\('\/orders\/'\+id/);assert.match(readFileSync('public/receipt.html','utf8'),/Voltar aos pedidos/);
+console.log('PASS synchronous manual open, popup fallback, protected real order load, receipt-only same-origin framing and return navigation');
