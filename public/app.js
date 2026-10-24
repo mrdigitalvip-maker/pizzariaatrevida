@@ -1,4 +1,4 @@
-import {downloadReceipt} from '/order-document.js?v=print-20261024';
+import {downloadReceipt} from '/order-document.js?v=orders-20261024';
 import {whatsappDraft} from '/order-whatsapp.js';
 import {prepareWhatsApp} from '/whatsapp-handoff.js';
 import {calculateTotals,inauguration,promotionalSubtotal} from '/pricing.js';

@@ -1,4 +1,4 @@
-import {downloadReceipt} from '/order-document.js?v=print-20261024';
+import {downloadReceipt} from '/order-document.js?v=orders-20261024';
 import {flavorLabel} from './catalog.js';
 import{courierCard,loadCourierPhotos}from'/courier-info.js';
 import{api}from'/common.js?v=v2-20261015';import{money}from'/catalog.js';import{progress,statusLabels}from'/progress.js';const[id,token]=location.hash.slice(1).split(':'),root=document.querySelector('#tracking-content'),esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
