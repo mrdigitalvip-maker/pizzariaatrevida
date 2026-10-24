@@ -1,4 +1,4 @@
-import {api} from '/common.js?v=v2-20261015';
+import {api} from '/common.js?v=push-20261024';
 const key='atrevida-local-print-v1';let active=false,busy=false,baseline=new Set(),frame=null;
 const box=document.createElement('details');box.className='release-news';box.innerHTML='<summary>🖨️ Impressora da loja · Tomate 80 mm</summary><p>Imprima a comanda completa pelo botão <b>Imprimir pedido</b> de cada pedido. Para novos pedidos, ative o automático nesta estação.</p><button id="printer-test">Configuração da impressora</button> <button id="printer-auto">Ativar automático neste computador</button><p id="printer-message" role="status">O navegador não confirma se o papel saiu. Confira a impressora.</p><p class="small">Mantenha este painel aberto e o computador ligado. O modo automático solicita impressão dos novos pedidos recebidos após ativar. Não imprime o histórico. Sem configuração local de impressão silenciosa, o Windows pedirá confirmação.</p><a href="/impressora.html" target="_blank" rel="noopener">Passo a passo de instalação e impressão sem diálogo</a>';
 document.querySelector('#staff-panel')?.prepend(box);const status=box.querySelector('#printer-message');

@@ -1,5 +1,5 @@
 const promoLabel=document.createElement('label');promoLabel.innerHTML='<input id="promotion-active" type="checkbox" checked> Ativar desconto adicional de 10% nos sabores em promoção';document.querySelector('#service-form').prepend(promoLabel);
-import{api}from'/common.js?v=v2-20261015';import{raw,beverages,money}from'/catalog.js';const $=s=>document.querySelector(s);let loaded=false;
+import{api}from'/common.js?v=push-20261024';import{raw,beverages,money}from'/catalog.js';const $=s=>document.querySelector(s);let loaded=false;
 const catalog=[...raw.map((x,i)=>({id:i+1,name:x[0]})),...beverages.filter(x=>x.active)];$('#availability-options').innerHTML=catalog.map(x=>`<label><input type="checkbox" value="${x.id}" name="unavailable"> ${x.name}</label>`).join('');
 async function load(){if(loaded)return;try{const c=await api('/staff/store');$('#service-form').elements.accepting.value=c.accepting?'yes':'no';$('#service-form').elements.eta.value=c.eta;window.shopEta=c.eta;window.storeConfig=c;$('#promotion-active').checked=c.promotion.active;$('#availability-options').querySelectorAll('input').forEach(x=>x.checked=c.unavailable.includes(+x.value));loaded=true;await refreshInsights()}catch{}}
 window.addEventListener('staffsection',load);window.addEventListener('stafforders',load);

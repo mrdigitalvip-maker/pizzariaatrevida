@@ -1,4 +1,4 @@
-import{api}from'/common.js?v=v2-20261015';
+import{api}from'/common.js?v=push-20261024';
 import{raw,prices,money}from'/catalog.js';
 const host=document.querySelector('#store-studio');
 const box=document.createElement('section');box.className='promotion-manager';box.id='promotion-manager';

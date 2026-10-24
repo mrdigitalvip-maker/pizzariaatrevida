@@ -1,4 +1,4 @@
-import {api} from '/common.js?v=v2-20261015';
+import {api} from '/common.js?v=push-20261024';
 
 function injectPolish(){
  if(document.querySelector('link[data-admin-live-polish]'))return;
